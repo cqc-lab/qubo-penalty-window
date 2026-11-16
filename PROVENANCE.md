@@ -42,5 +42,6 @@ Notes
   of `qpu_c1.csv`, where it equals the logical auto-scale factor s(λ).
 - Every run left `auto_scale` at its default (on) and the annealing time at its default (20 µs). Since
   2023-11-15, Leap's auto-scaling uses the extended J range [-2, 1] and, on Advantage systems, the per-qubit
-  coupling limit [-18, 15]; all runs in this study were made after that date. `embedded_autoscale.py`
-  reconstructs the factor the QPU applied.
+  coupling limit [-18, 15]; all runs in this study were made after that date. Every programming also carried a
+  random spin-reversal gauge (two per point), which is not stored in the CSV files but is reproducible from the
+  scripts' seeds; `embedded_gauge.py` reconstructs the gauges and the auto-scale factor of every programming.

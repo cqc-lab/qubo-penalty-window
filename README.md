@@ -73,7 +73,9 @@ manuscript and may shift in revision.
 | Effective temperature, coarse fits (Fig. 3) | `qpu_beta.py --qpu qpu_main.csv --sa results.csv --out qpu_beta_grid.csv > qpu_beta_fit.txt`; the same with `--qpu qpu_chain.csv --out qpu_beta_grid_chain.csv` and `--qpu qpu_bign.csv --out qpu_beta_grid_bign.csv` | `qpu_beta_grid*.csv`, `qpu_beta_fit*.txt` |
 | Effective temperature, fine direct fit with intervals (Fig. 4, Table 5) | `beta_fine.py` | `beta_fine_grid.csv`, `beta_fine.csv` |
 | Embedded-problem scale, scaling fit with intervals (symmetric ranges, superseded) | `embedded_scale.py` | `embedded_scale.csv`, `embedded_beta.csv` |
-| Hardware scale under the QPU's auto-scale rule, chain-strength comparison, scaling fit (Table 5) | `embedded_autoscale.py --workers 30` | `embedded_autoscale.csv`, `embedded_autoscale_beta.csv` |
+| Hardware scale per programming with the reconstructed spin-reversal gauges, chain-strength comparison, scaling fit (Table 5, Section 6.3) | `embedded_gauge.py --workers 30` | `embedded_gauge.csv`, `embedded_gauge_beta.csv` |
+| Paired gauge test of the temperature scale (Section 6.3) | `gauge_pairs.py --beta 2.9` (reads `embedded_gauge.csv`) | `gauge_pairs.csv` |
+| Hardware scale without gauges (superseded) | `embedded_autoscale.py --workers 30` | `embedded_autoscale.csv`, `embedded_autoscale_beta.csv` |
 | TSP and knapsack encodings, Γ (Table B1) | `apps.py sweep --out apps_sweep.csv`; `apps.py est --out apps_est.csv` | `apps_sweep.csv`, `apps_est.csv` |
 | TSP and knapsack on the QPU, Γ estimated from samples | `qpu_apps.py --solver Advantage_system6` | `qpu_apps.csv`, `qpu_apps_embeddings.json` |
 | Out-of-sample R² of the scaling variable and control variables | `oos_scaling.py --qpu qpu_main.csv --points report/scaling_points.csv` | `oos_scaling.csv` |
@@ -96,7 +98,7 @@ Figures 2 and 3 are written by `scaling.py` (to `report/`) and `qpu_beta.py` (to
 ## Dependencies between steps
 
 - `embedded_scale.py` and `c1_analyze.py` read `report/scaling_points.csv` (from `scaling.py`).
-- `embedded_autoscale.py`, `c1_analyze.py` and `embedded_scale.py` need the coupler graph of the device.
+- `embedded_gauge.py`, `embedded_autoscale.py`, `c1_analyze.py` and `embedded_scale.py` need the coupler graph of the device.
   The full working graph of the device is not redistributed. These analyses only need the couplers among the
   qubits of each embedding, which `data/qpu/embedding_couplers_Advantage_system4.json` contains (1060 couplers,
   made by `used_couplers.py` from the graph fetched with `fetch_graph.py` while Advantage_system4 was online;
@@ -105,10 +107,14 @@ Figures 2 and 3 are written by `scaling.py` (to `report/`) and `qpu_beta.py` (to
   `j_range`, `extended_j_range`, `per_qubit_coupling_range`) and the default annealing time are in
   `data/qpu/qpu_solver_properties.json` (read on 2026-11-16 from Advantage_system6; Advantage_system4 was retired
   by then and is assumed to have had the same ranges).
-- `embedded_autoscale.py` supersedes the embedded-scale part of `embedded_scale.py`: it applies the QPU's actual
-  auto-scale rule (extended J range, per-qubit coupling limit), whereas `embedded_scale.py` used the symmetric
-  ranges. The paper (Table 5, Section 6.3) reports the former; `embedded_scale.csv` and `embedded_beta.csv` are
-  kept for comparison.
+- `embedded_gauge.py` is the analysis the paper reports (Table 5, Section 6.3). The QPU scripts applied a random
+  spin-reversal gauge to every programming, and under the extended J range [-2, 1] and the signed per-qubit
+  coupling limit the auto-scale factor depends on that gauge. The script reconstructs the 4800 gauges of the main,
+  chain, large-n and chain-strength runs from the scripts' random streams (`default_rng(seed + 7)` with the shuffled
+  job list in `qpu_run.py`; `default_rng(instance seed + 41)` per instance in `qpu_c1.py`), checks the
+  reconstructed job order against the CSV row order, and computes the factor per programming.
+  `embedded_autoscale.py` (actual ranges, no gauge) and `embedded_scale.py` (symmetric ranges, no gauge) are
+  earlier versions, kept for comparison.
 - `qpu_garcia.py` reads the λ chosen by `est` from `qpu_estimator.csv` (`--est`).
 - `qpu_beta.py`, `beta_fine.py` and `embedded_scale.py` emulate the QPU instances once and cache the result in
   their grid file; delete it to recompute.
