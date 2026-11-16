@@ -15,7 +15,7 @@ authors:
   - family-names: Lee
     given-names: Dongjae
     affiliation: Kangwon National University
-version: "1.0.0"
+version: "1.0.2"
 repository-code: "https://github.com/cqc-lab/qubo-penalty-window"
 doi: "10.5281/zenodo.24281103"
 identifiers:
@@ -23,8 +23,8 @@ identifiers:
     value: "10.5281/zenodo.24281103"
     description: "Concept DOI (all versions)"
   - type: doi
-    value: "10.5281/zenodo.24281104"
-    description: "Version v1.0.1"
+    value: "10.5281/zenodo.24282743"
+    description: "Version v1.0.2"
 license: MIT
 keywords:
   - quantum annealing
