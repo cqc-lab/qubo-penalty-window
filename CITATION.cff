@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this code or data, please cite the paper (details will be added on publication) and this archive."
+message: "If you use this code or data, please cite the paper (details will be added on publication) and this archive. Code: MIT License; data: CC BY 4.0 (data/LICENSE)."
 title: "The penalty window collapses on quantum annealing hardware: code and data"
 type: software
 authors:
@@ -17,9 +17,7 @@ authors:
     affiliation: Kangwon National University
 version: "1.0.0"
 repository-code: "https://github.com/cqc-lab/qubo-penalty-window"
-license:
-  - MIT
-  - CC-BY-4.0
+license: MIT
 keywords:
   - quantum annealing
   - QUBO

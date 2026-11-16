@@ -1,0 +1,32 @@
+{
+  "title": "The penalty window collapses on quantum annealing hardware: code and data",
+  "upload_type": "software",
+  "description": "<p>Code and data accompanying the manuscript <em>The Penalty Window Collapses on Quantum Annealing Hardware: A Scaling Variable and a Sample-Based Rule for Penalty Weights in Constrained QUBO</em> (J. Cho, M. Lee, I. Kim, D. Lee), submitted to EPJ Quantum Technology.</p><p>Contents: emulation sweeps and selection-rule results (data/emulation); D-Wave Advantage QPU raw data, embeddings and QPU-time ledger (data/qpu); derived analyses (data/derived); analysis and QPU scripts (code). README.md lists the command behind each table and figure, and PROVENANCE.md documents the QPU runs.</p><p>Licenses: the data are released under CC BY 4.0 (data/LICENSE) and the code under the MIT License (LICENSE).</p>",
+  "creators": [
+    {
+      "name": "Cho, Junwhan",
+      "affiliation": "Kangwon National University"
+    },
+    {
+      "name": "Lee, Minjae",
+      "affiliation": "Kangwon National University"
+    },
+    {
+      "name": "Kim, Insung",
+      "affiliation": "Korea University"
+    },
+    {
+      "name": "Lee, Dongjae",
+      "affiliation": "Kangwon National University"
+    }
+  ],
+  "license": "cc-by-4.0",
+  "keywords": [
+    "quantum annealing",
+    "QUBO",
+    "penalty method",
+    "constrained optimization",
+    "D-Wave",
+    "effective temperature"
+  ]
+}
