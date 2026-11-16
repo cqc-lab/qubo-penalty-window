@@ -1,0 +1,9 @@
+# Versions used for the paper: emulation on Python 3.12 (numpy 2.5, pandas 3.1), QPU runs on Python 3.10.
+numpy>=2.2
+pandas>=2.2
+matplotlib>=3.8
+networkx>=3.0
+dimod>=0.12.22
+dwave-samplers>=1.8
+dwave-system>=1.36
+minorminer>=0.2.22

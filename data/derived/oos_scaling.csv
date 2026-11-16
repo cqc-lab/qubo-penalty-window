@@ -1,0 +1,18 @@
+split,variable,beta_eff,r2_holdout,r2_lo,r2_hi,frac_positive
+"fit even, test odd",therm,2.9,0.5140872766684443,,,
+"fit even, test odd",nog,3.6,0.3717761134303359,,,
+"fit even, test odd",rel,,-0.15254399275738395,,,
+"fit even, test odd",lam,,-0.18174734095477119,,,
+"fit odd, test even",therm,3.7,0.7566716486715357,,,
+"fit odd, test even",nog,2.5,0.513796356942585,,,
+"fit odd, test even",rel,,-0.09198607090367261,,,
+"fit odd, test even",lam,,0.44362297960938546,,,
+500 random halves,therm,3.0,0.665783223524885,0.36542845111262307,0.8493653395371836,
+500 random halves,nog,2.9,0.5417532229855071,0.153963729723136,0.678832479922931,
+500 random halves,rel,,-0.11244276607796133,-0.7605337865573517,0.10399867530147999,
+500 random halves,lam,,0.25109013788913914,-0.49644684420598795,0.5048023200754886,
+500 random halves,therm - nog,,0.13455850336167824,-0.16589956135811115,0.3972195500845317,0.838
+"in-sample, all points",therm,2.9,0.703200468603133,,,
+"in-sample, all points",nog,2.9,0.578018746672178,,,
+"in-sample, all points",rel,,-0.10221177190452346,,,
+"in-sample, all points",lam,,0.2445312301678617,,,

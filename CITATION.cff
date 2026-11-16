@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite the paper (details will be added on publication) and this archive."
+title: "The penalty window collapses on quantum annealing hardware: code and data"
+type: software
+authors:
+  - family-names: Cho
+    given-names: Junwhan
+    affiliation: Kangwon National University
+  - family-names: Lee
+    given-names: Minjae
+    affiliation: Kangwon National University
+  - family-names: Kim
+    given-names: Insung
+    affiliation: Korea University
+  - family-names: Lee
+    given-names: Dongjae
+    affiliation: Kangwon National University
+version: "1.0.0"
+repository-code: "https://github.com/cqc-lab/qubo-penalty-window"
+license:
+  - MIT
+  - CC-BY-4.0
+keywords:
+  - quantum annealing
+  - QUBO
+  - penalty method
+  - D-Wave

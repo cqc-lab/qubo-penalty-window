@@ -1,0 +1,27 @@
+# Credentials: never commit a D-Wave token or Ocean configuration
+*token*
+dwave.conf
+.env
+
+# Device graphs are fetched with code/fetch_graph.py rather than redistributed
+graph_*.json
+
+# Working directories and outputs of re-runs
+work/
+figures/
+report/
+dry_*
+test_*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Google Drive, editors, notebooks, logs
+desktop.ini
+.tmp.drive*
+.~*
+.ipynb_checkpoints/
+*.log

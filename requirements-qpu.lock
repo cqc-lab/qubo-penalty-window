@@ -1,0 +1,11 @@
+# Environment of the QPU runs (Python 3.10.5, Windows 10). Only the packages the code imports are listed.
+numpy==2.2.6
+pandas==2.2.3
+matplotlib==3.10.9
+networkx==3.4.2
+dimod==0.12.22
+dwave-samplers==1.8.0
+dwave-system==1.36.0
+dwave-cloud-client==0.14.7
+dwave-networkx==0.8.19
+minorminer==0.2.22
