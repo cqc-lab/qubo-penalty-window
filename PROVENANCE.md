@@ -3,7 +3,7 @@
 All QPU runs were submitted from one Windows 10 workstation (Python 3.10.5, `requirements-qpu.lock`) to D-Wave
 Leap. The emulation runs were made on a 32-core Linux server (Python 3.12.3, `requirements-emulation.lock`).
 Dates are local time (KST, UTC+9). QPU times are QPU access time as reported by the solver; the per-run sums
-below add up exactly to the ledger total (`data/qpu/qpu_ledger.json`, 686.9 s; rows are rounded).
+below add up exactly to the ledger total (`data/qpu/qpu_ledger.json`, 848.9 s; rows are rounded).
 
 | File | Run (paper, Table 3) | Solver | Date | QPU time (s) | Script and options |
 |---|---|---|---|---|---|
@@ -19,6 +19,9 @@ below add up exactly to the ledger total (`data/qpu/qpu_ledger.json`, 686.9 s; r
 | `qpu_large.csv` (sparse) | large sparse | Advantage_system6 | 2026-11-12/13 | 109.4 | `qpu_large.py --family sparse --solver Advantage_system6` |
 | `qpu_large.csv` (dense) | large dense | Advantage_system6 | 2026-11-13 | 7.6 | `qpu_large.py --family dense --solver Advantage_system6` |
 | `qpu_apps.csv` | applications | Advantage_system6 | 2026-11-13 | 19.5 | `qpu_apps.py --solver Advantage_system6` |
+| `qpu_strength.csv` | strength | Advantage_system6 | 2026-11-17 | 25.3 | `qpu_strength.py --budget 60 --solver Advantage_system6` |
+| `qpu_budget.csv` | equal budget | Advantage_system6 | 2026-11-17 | 39.3 | `qpu_budget.py --budget 60 --solver Advantage_system6` |
+| `qpu_adv2_main.csv` | Advantage2 | Advantage2_system1 | 2026-11-17 | 97.4 | `qpu_run.py --phase main --budget 130 --solver Advantage2_system1 --emb-file qpu_adv2_embeddings.json --out qpu_adv2_main.csv` |
 
 Notes
 - The first five runs were started without `--solver`; the Leap default for Pegasus at the time was
@@ -45,3 +48,7 @@ Notes
   coupling limit [-18, 15]; all runs in this study were made after that date. Every programming also carried a
   random spin-reversal gauge (two per point), which is not stored in the CSV files but is reproducible from the
   scripts' seeds; `embedded_gauge.py` reconstructs the gauges and the auto-scale factor of every programming.
+- The three runs of 2026-11-17 were submitted with a different Leap token (a new project), from the same workstation.
+  `qpu_strength.py` programs the embedded problem itself with `auto_scale=False`, after dividing it by the factor
+  that auto-scaling would apply (extended J range, per-qubit coupling limit); its gauges are stored implicitly
+  through the seeds (`default_rng(instance seed + 53)`).

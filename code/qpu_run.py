@@ -107,6 +107,7 @@ def main():
     ap.add_argument("--seed", type=int, default=2026)
     ap.add_argument("--out", default=None)
     ap.add_argument("--solver", default=None, help="QPU solver name (default: any Pegasus Advantage)")
+    ap.add_argument("--emb-file", default=None, help="embedding cache (default: <tag>_embeddings.json)")
     args = ap.parse_args()
 
     tag = "dry" if args.dry_run else "qpu"
@@ -133,7 +134,7 @@ def main():
     rng.shuffle(jobs)  # interleave lambdas and instances so hardware drift does not align with lambda
 
     child, graph, chip = make_sampler(args.dry_run, args.solver)
-    emb_path = f"{tag}_embeddings.json"
+    emb_path = args.emb_file or f"{tag}_embeddings.json"
     emb_cache = load_ledger(emb_path)
     print(f"{chip}: {len(jobs)} jobs to run, {len(done)} already done; "
           f"month {month} used {load_ledger(ledger_path).get(month, 0) / 1e6:.1f}s")
