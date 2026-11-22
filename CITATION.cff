@@ -23,8 +23,8 @@ identifiers:
     value: "10.5281/zenodo.24281103"
     description: "Concept DOI (all versions)"
   - type: doi
-    value: "10.5281/zenodo.24439026"
-    description: "Version v1.0.4"
+    value: "10.5281/zenodo.24439283"
+    description: "Version v1.0.5"
 license: MIT
 keywords:
   - quantum annealing

@@ -4,8 +4,8 @@ Code and data for *The Penalty Window Collapses on Quantum Annealing Hardware: A
 Sample-Based Rule for Penalty Weights in Constrained QUBO* (J. Cho, M. Lee, I. Kim, D. Lee).
 
 Repository: https://github.com/cqc-lab/qubo-penalty-window  
-Archive: [doi:10.5281/zenodo.24281103](https://doi.org/10.5281/zenodo.24281103) (all versions; v1.0.4 is
-[doi:10.5281/zenodo.24439026](https://doi.org/10.5281/zenodo.24439026))
+Archive: [doi:10.5281/zenodo.24281103](https://doi.org/10.5281/zenodo.24281103) (all versions; v1.0.5 is
+[doi:10.5281/zenodo.24439283](https://doi.org/10.5281/zenodo.24439283))
 
 The study asks how the penalty weight λ of a penalty-encoded constrained QUBO should be chosen when the problem
 runs on a D-Wave QPU. It contains
