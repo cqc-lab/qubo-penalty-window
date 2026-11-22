@@ -33,6 +33,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--csv", default="qpu_strength.csv")
     ap.add_argument("--boot", type=int, default=3000)
+    ap.add_argument("--splits", type=int, default=500)
     ap.add_argument("--out", default="strength_summary.csv")
     args = ap.parse_args()
     pred = master_curve("report/scaling_points.csv")
@@ -48,6 +49,25 @@ def main():
         i = int(np.argmax(sc))
         res[name] = (BETAS[i], sc[i])
         print(f"{name:10s} model: best beta {BETAS[i]:.2f}, predictive R^2 {sc[i]:.3f}")
+    # held-out comparison: beta chosen on a random half of the instances, R^2 scored on the other half
+    ids_all = d.inst_id.unique()
+    rng_s = np.random.default_rng(1)
+    ho = {"programmed": [], "logical": []}
+    for _ in range(args.splits):
+        tr = set(rng_s.choice(ids_all, len(ids_all) // 2, replace=False))
+        m_tr = d.inst_id.isin(tr).to_numpy()
+        for name, kcol in [("programmed", d.k.to_numpy()), ("logical", np.ones(len(d)))]:
+            x = lambda b: pred(np.log10(b * kcol * d.gap.to_numpy() / d.s_auto.to_numpy()))
+            b = BETAS[int(np.argmax([r2(y[m_tr], x(b)[m_tr]) for b in BETAS]))]
+            ho[name].append(r2(y[~m_tr], x(b)[~m_tr]))
+    hp, hl = np.array(ho["programmed"]), np.array(ho["logical"])
+    print(f"held-out R^2 over {args.splits} instance splits: programmed {np.median(hp):.3f} "
+          f"({np.quantile(hp, 0.025):.3f}-{np.quantile(hp, 0.975):.3f}), logical {np.median(hl):.3f} "
+          f"({np.quantile(hl, 0.025):.3f}-{np.quantile(hl, 0.975):.3f}); programmed better in {np.mean(hp > hl):.0%}")
+    print("feasible fraction and optimum among feasible reads by k (pooled reads):")
+    agg = d.groupby("k")[["succ", "feas", "reads"]].sum()
+    print(pd.DataFrame(dict(feasible=agg.feas / agg.reads, optimum_given_feasible=agg.succ / agg.feas)).round(3)
+          .to_string())
     beta = res["programmed"][0]
     d["pred"] = pred(np.log10(beta * d.k * d.gap / d.s_auto))
     base = d[d.k == 1.0].set_index(["inst_id", "rel", "gauge"])

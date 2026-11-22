@@ -80,6 +80,7 @@ manuscript and may shift in revision.
 | TSP and knapsack on the QPU, Γ estimated from samples | `qpu_apps.py --solver Advantage_system6` | `qpu_apps.csv`, `qpu_apps_embeddings.json` |
 | Controlled test of the programmed energy scale (Section 6.3) | `qpu_strength.py --solver Advantage_system6`; `strength_analyze.py --csv qpu_strength.csv` | `qpu_strength.csv`, `strength_summary.csv` |
 | Equal-budget comparison on the large sparse instances (Section 7.4) | `qpu_budget.py --solver Advantage_system6` | `qpu_budget.csv` |
+| Equal-budget comparison on Advantage2, with seq x 1.5 (Section 7.4) | `embed_large.py --graph graph_Advantage2_system1.json --chip Advantage2_system1`; `qpu_budget.py --budget 110 --solver Advantage2_system1 --methods est,seq15,inst --out qpu_budget_adv2.csv` | `qpu_budget_adv2.csv`, `qpu_large_embeddings.json` |
 | Main sweep on Advantage2 (Section 6.3) | `qpu_run.py --phase main --solver Advantage2_system1 --emb-file qpu_adv2_embeddings.json --out qpu_adv2_main.csv`; `beta_adv2.py --workers 30` | `qpu_adv2_main.csv`, `qpu_adv2_embeddings.json`, `beta_adv2_grid.csv`, `beta_adv2.csv` |
 | Out-of-sample R² of the scaling variable and control variables | `oos_scaling.py --qpu qpu_main.csv --points report/scaling_points.csv` | `oos_scaling.csv` |
 | Multiplicity (Holm) over all paired hardware comparisons | `holm_qpu.py --dir . --out holm_qpu.csv` | `holm_qpu.csv` |
@@ -128,7 +129,8 @@ Figures 2 and 3 are written by `scaling.py` (to `report/`) and `qpu_beta.py` (to
   (`qpu_garcia.csv`), the interleaved chain-length run (`qpu_interleave.csv`), the large instances (`qpu_large.csv`) and
   the application encodings (`qpu_apps.csv`), the coupling-strength run (`qpu_strength.csv`) and the equal-budget run
   (`qpu_budget.csv`), which ran on Advantage_system6, and the repeat of the main sweep on Advantage2_system1
-  (`qpu_adv2_main.csv`). Total QPU access time was 848.9 s (`qpu_ledger.json`).
+  (`qpu_adv2_main.csv`) and the second equal-budget run (`qpu_budget_adv2.csv`). Total QPU access time was 925.2 s
+  (`qpu_ledger.json`).
   See `PROVENANCE.md`.
 - **Embeddings.** `qpu_embeddings.json` holds the clique embeddings (`minorminer.busclique`) used on the QPU,
   keyed by problem size; `"10of14"` and `"18of30"` are the lengthened chains of the chain-length experiment.

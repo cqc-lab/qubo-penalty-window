@@ -4,12 +4,19 @@ For each of the 60 sparse instances of qpu_large.py (same minorminer embeddings,
   est   : the 4 x 250 selection reads of large.estimate, then 2 x 250 reads at the chosen weight (1500 reads in all);
   inst  : 6 x 250 reads at the coefficient-based weight lambda_inst (1500 reads);
   ref   : 2 x 250 reads at 1.5 lam_ref, for reference.
+  seq15 : (optional, --methods) the 4 x 250 selection reads of large.sequential, then 2 x 250 reads at its choice
+          times 1.5 (1500 reads in all).
 Every read is kept, including the selection reads, so for each method we know whether a solution within 1% of
-E_ref (and within 5%) appeared within the same total number of reads. The two methods' jobs are interleaved in
-random order per instance.
+E_ref (and within 5%) appeared within the same total number of reads. The scoring jobs of all methods are
+interleaved in random order per instance; the order of the two selection procedures is random as well.
+
+Protocol of the Advantage2 run, fixed before it was run (2026-11-17): methods est, seq15 and inst; margin 1.5;
+1500 reads per method including selection; criterion: a feasible read within 1% of E_ref (large.csv) among all
+reads of the method; embeddings from embed_large.py on the Advantage2 working graph.
 
     python qpu_budget.py --dry-run --limit 1
     python qpu_budget.py --budget 60 --solver Advantage_system6
+    python qpu_budget.py --budget 110 --solver Advantage2_system1 --methods est,seq15,inst --out qpu_budget_adv2.csv
 """
 import argparse
 import json
@@ -36,6 +43,7 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--solver", default="Advantage_system6")
     ap.add_argument("--out", default=None)
+    ap.add_argument("--methods", default="est,inst,ref", help="comma-separated: est, seq15, inst, ref")
     args = ap.parse_args()
     qpu_large.DRY[0] = args.dry_run
     tag = "dry" if args.dry_run else "qpu"
@@ -71,12 +79,26 @@ def main():
         qpu_large.USED_US[0] = 0
         qpu_large.CB.clear()
         one = dict(n_prog=1, reads=READS)
-        # est: selection (sequential by construction), then its scoring reads interleaved with the fixed weights
-        pool = []
-        est = large.estimate(inst, rng, sampler, pool)
-        draws = {"est": list(pool), "inst": [], "ref": []}
-        jobs = [("est", est)] * 2 + [("inst", np.log10(inst["lam_inst"]))] * 6 + \
-               [("ref", np.log10(1.5 * ref["lam_ref"]))] * 2
+        methods = args.methods.split(",")
+        chosen = {"inst": np.log10(inst["lam_inst"]), "ref": np.log10(1.5 * ref["lam_ref"])}
+        if methods == ["est", "inst", "ref"]:
+            # the original run: est selection, then its scoring reads interleaved with the fixed weights
+            pool = []
+            chosen["est"] = large.estimate(inst, rng, sampler, pool)
+            draws = {"est": list(pool), "inst": [], "ref": []}
+        else:
+            draws = {m: [] for m in methods}
+            sel = [m for m in ("est", "seq15") if m in methods]
+            for m in [sel[i] for i in rng.permutation(len(sel))]:
+                pool = []
+                if m == "est":
+                    chosen[m] = large.estimate(inst, rng, sampler, pool)
+                else:
+                    chosen[m] = large.sequential(inst, rng, sampler, pool) + np.log10(1.5)
+                draws[m] = list(pool)
+        jobs = []
+        for m in methods:
+            jobs += [(m, chosen[m])] * (6 if m == "inst" else 2)
         rng.shuffle(jobs)
         for meth, ll in jobs:
             draws[meth].append(qpu_large.qpu_draw(inst, 10.0 ** ll, None, one, rng, sampler))
@@ -91,7 +113,7 @@ def main():
             near1 = ok & (E <= E_ref + 0.01 * tol)
             near5 = ok & (E <= E_ref + 0.05 * tol)
             rows.append(dict(inst_id=iid, n=n, M=M, idx=idx, method=meth, reads=len(E),
-                             loglam=est if meth == "est" else dict(jobs)[meth],
+                             loglam=chosen[meth],
                              any1=bool(near1.any()), n1=int(near1.sum()), any5=bool(near5.any()), n5=int(near5.sum()),
                              feas=float(ok.mean()), E_ref=E_ref, E_ref_improved=bool(E_new < ref["E_ref"]),
                              lam_ref=ref["lam_ref"], chip=chip, chain_break=float(np.mean(qpu_large.CB)),
