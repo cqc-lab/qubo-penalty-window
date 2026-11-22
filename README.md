@@ -73,24 +73,24 @@ manuscript and may shift in revision.
 | Effective temperature, coarse fits (Fig. 3) | `qpu_beta.py --qpu qpu_main.csv --sa results.csv --out qpu_beta_grid.csv > qpu_beta_fit.txt`; the same with `--qpu qpu_chain.csv --out qpu_beta_grid_chain.csv` and `--qpu qpu_bign.csv --out qpu_beta_grid_bign.csv` | `qpu_beta_grid*.csv`, `qpu_beta_fit*.txt` |
 | Effective temperature, fine direct fit with intervals (Fig. 4, Table 5) | `beta_fine.py` | `beta_fine_grid.csv`, `beta_fine.csv` |
 | Embedded-problem scale, scaling fit with intervals (symmetric ranges, superseded) | `embedded_scale.py` | `embedded_scale.csv`, `embedded_beta.csv` |
-| Hardware scale per programming with the reconstructed spin-reversal gauges, chain-strength comparison, scaling fit (Table 5, Section 6.3) | `embedded_gauge.py --workers 30` | `embedded_gauge.csv`, `embedded_gauge_beta.csv` |
-| Paired gauge test of the temperature scale (Section 6.3) | `gauge_pairs.py --beta 2.9` (reads `embedded_gauge.csv`) | `gauge_pairs.csv` |
+| Hardware scale per programming with the reconstructed spin-reversal gauges, chain-strength comparison, scaling fit (Table 5, Section 3.2.3) | `embedded_gauge.py --workers 30` | `embedded_gauge.csv`, `embedded_gauge_beta.csv` |
+| Paired gauge test of the temperature scale (Section 3.2.3) | `gauge_pairs.py --beta 2.9` (reads `embedded_gauge.csv`) | `gauge_pairs.csv` |
 | Hardware scale without gauges (superseded) | `embedded_autoscale.py --workers 30` | `embedded_autoscale.csv`, `embedded_autoscale_beta.csv` |
 | TSP and knapsack encodings, Γ (Table B1) | `apps.py sweep --out apps_sweep.csv`; `apps.py est --out apps_est.csv` | `apps_sweep.csv`, `apps_est.csv` |
 | TSP and knapsack on the QPU, Γ estimated from samples | `qpu_apps.py --solver Advantage_system6` | `qpu_apps.csv`, `qpu_apps_embeddings.json` |
-| Controlled test of the programmed energy scale (Section 6.3) | `qpu_strength.py --solver Advantage_system6`; `strength_analyze.py --csv qpu_strength.csv` | `qpu_strength.csv`, `strength_summary.csv` |
-| Equal-budget comparison on the large sparse instances (Section 7.4) | `qpu_budget.py --solver Advantage_system6` | `qpu_budget.csv` |
-| Equal-budget comparison on Advantage2, with seq x 1.5 (Section 7.4) | `embed_large.py --graph graph_Advantage2_system1.json --chip Advantage2_system1`; `qpu_budget.py --budget 110 --solver Advantage2_system1 --methods est,seq15,inst --out qpu_budget_adv2.csv` | `qpu_budget_adv2.csv`, `qpu_large_embeddings.json` |
-| Main sweep on Advantage2 (Section 6.3) | `qpu_run.py --phase main --solver Advantage2_system1 --emb-file qpu_adv2_embeddings.json --out qpu_adv2_main.csv`; `beta_adv2.py --workers 30` | `qpu_adv2_main.csv`, `qpu_adv2_embeddings.json`, `beta_adv2_grid.csv`, `beta_adv2.csv` |
+| Controlled test of the programmed energy scale (Section 3.2.3) | `qpu_strength.py --solver Advantage_system6`; `strength_analyze.py --csv qpu_strength.csv` | `qpu_strength.csv`, `strength_summary.csv` |
+| Equal-budget comparison on the large sparse instances (Section 3.3.4) | `qpu_budget.py --solver Advantage_system6` | `qpu_budget.csv` |
+| Equal-budget comparison on Advantage2, with seq x 1.5 (Section 3.3.4) | `embed_large.py --graph graph_Advantage2_system1.json --chip Advantage2_system1`; `qpu_budget.py --budget 110 --solver Advantage2_system1 --methods est,seq15,inst --out qpu_budget_adv2.csv` | `qpu_budget_adv2.csv`, `qpu_large_embeddings.json` |
+| Main sweep on Advantage2 (Section 3.2.3) | `qpu_run.py --phase main --solver Advantage2_system1 --emb-file qpu_adv2_embeddings.json --out qpu_adv2_main.csv`; `beta_adv2.py --workers 30` | `qpu_adv2_main.csv`, `qpu_adv2_embeddings.json`, `beta_adv2_grid.csv`, `beta_adv2.csv` |
 | Out-of-sample R² of the scaling variable and control variables | `oos_scaling.py --qpu qpu_main.csv --points report/scaling_points.csv` | `oos_scaling.csv` |
 | Multiplicity (Holm) over all paired hardware comparisons | `holm_qpu.py --dir . --out holm_qpu.csv` | `holm_qpu.csv` |
-| Selection rules in emulation, published methods (Tables C1, C2) | `estimator.py --out estimator.csv` | `estimator.csv` |
-| Margin sensitivity, per-instance best, cross-entropy, held-out families (Table D1) | `extra.py --family {orig,rho075,gauss,sparse,onehot}` | `extra_*.csv` |
-| Large instances, n = 50–100 (Table E1) | `large.py --out large.csv`; `tabu_ref.py --ref large.csv` | `large.csv`, `tabu_ref.csv` |
+| Selection rules in emulation, published methods (Tables A2, A3) | `estimator.py --out estimator.csv` | `estimator.csv` |
+| Margin sensitivity, per-instance best, cross-entropy, held-out families (Table A4) | `extra.py --family {orig,rho075,gauss,sparse,onehot}` | `extra_*.csv` |
+| Large instances, n = 50–100 (Table A5) | `large.py --out large.csv`; `tabu_ref.py --ref large.csv` | `large.csv`, `tabu_ref.csv` |
 | Large instances at hardware-calibrated β (Table 7) | `large_beta.py --ref large.csv --out large_beta.csv` | `large_beta.csv` |
 | Large instances on the QPU (Table 8) | `qpu_large.py --family sparse --solver Advantage_system6`; `qpu_large.py --family dense --solver Advantage_system6`; `qpu_large_analyze.py qpu_large.csv --large large.csv --beta large_beta.csv` | `qpu_large.csv`, `qpu_large_embeddings.json`, `qpu_large_summary.csv` |
-| Held-out one-hot family on the QPU (Table F1) | `qpu_c2.py --solver Advantage_system4` | `qpu_c2.csv` |
-| Published methods on the QPU (Table F2) | `qpu_garcia.py --solver Advantage_system6` | `qpu_garcia.csv` |
+| Held-out one-hot family on the QPU (Table C1) | `qpu_c2.py --solver Advantage_system4` | `qpu_c2.csv` |
+| Published methods on the QPU (Table C2) | `qpu_garcia.py --solver Advantage_system6` | `qpu_garcia.csv` |
 | Selection rules on the QPU (Table 6) | `qpu_estimator.py --solver Advantage_system4` | `qpu_estimator.csv` |
 | Chain length vs. β_eff, both embeddings interleaved in one session | `qpu_interleave.py --solver Advantage_system6`; `interleave_analyze.py qpu_interleave.csv --grid beta_fine_grid.csv` | `qpu_interleave.csv`, `interleave_beta.csv` |
 | λ/λ_exact sweep and chain-strength test on the QPU | `qpu_c1.py --ns 10 18 --solver Advantage_system4`; `c1_analyze.py qpu_c1.csv` | `qpu_c1.csv`, `c1_beta.csv` |
@@ -111,7 +111,7 @@ Figures 2 and 3 are written by `scaling.py` (to `report/`) and `qpu_beta.py` (to
   `j_range`, `extended_j_range`, `per_qubit_coupling_range`) and the default annealing time are in
   `data/qpu/qpu_solver_properties.json` (read on 2026-11-16 from Advantage_system6; Advantage_system4 was retired
   by then and is assumed to have had the same ranges).
-- `embedded_gauge.py` is the analysis the paper reports (Table 5, Section 6.3). The QPU scripts applied a random
+- `embedded_gauge.py` is the analysis the paper reports (Table 5, Section 3.2.3). The QPU scripts applied a random
   spin-reversal gauge to every programming, and under the extended J range [-2, 1] and the signed per-qubit
   coupling limit the auto-scale factor depends on that gauge. The script reconstructs the 4800 gauges of the main,
   chain, large-n and chain-strength runs from the scripts' random streams (`default_rng(seed + 7)` with the shuffled

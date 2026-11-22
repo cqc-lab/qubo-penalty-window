@@ -4,8 +4,8 @@ Every comparison is a paired difference per instance. Two-sided p-values come fr
 test on the per-instance differences; Holm's step-down procedure is applied across all of them together.
 
   selection   qpu_estimator.csv   est vs every other method                  (Table 6)
-  published   qpu_garcia.csv      est (re-scored) vs the methods of Garcia    (Table F2)
-  one-hot     qpu_c2.csv          est vs every other method                   (Table F1)
+  published   qpu_garcia.csv      est (re-scored) vs the methods of Garcia    (Table C2)
+  one-hot     qpu_c2.csv          est vs every other method                   (Table C1)
   large       qpu_large.csv       est vs every other method, near5            (Table 8)
   chain       qpu_interleave.csv  short - long chains, per n
   strength    qpu_c1.csv          scaled - default chain strength, per n

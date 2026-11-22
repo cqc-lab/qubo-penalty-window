@@ -1,6 +1,6 @@
 """Lambda sweep: does the penalty window narrow under QPU-like scaling, temperature and ICE noise?
 
-Sampling conditions are in CONDITIONS (paper, Table 1). The study began as a pilot ("go/no-go") check, and
+Sampling conditions are in CONDITIONS (paper, Table 2). The study began as a pilot ("go/no-go") check, and
 `analyze` still prints that pilot's decision rule (verdict()); the paper does not use it.
 
     python gonogo.py run --out results.csv [--quick] [--workers 6]

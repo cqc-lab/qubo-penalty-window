@@ -15,7 +15,7 @@ authors:
   - family-names: Lee
     given-names: Dongjae
     affiliation: Kangwon National University
-version: "1.0.4"
+version: "1.0.5"
 repository-code: "https://github.com/cqc-lab/qubo-penalty-window"
 doi: "10.5281/zenodo.24281103"
 identifiers:
